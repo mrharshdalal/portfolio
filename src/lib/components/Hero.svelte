@@ -28,19 +28,35 @@
 	let typingText = "Full Stack Developer";
 	let currentText = "";
 	let currentIndex = 0;
+	let typingStarted = false;
 
 	onMount(() => {
-		if (heroVisible) {
-			const typeWriter = () => {
-				if (currentIndex < typingText.length) {
-					currentText += typingText[currentIndex];
-					currentIndex++;
-					setTimeout(typeWriter, 100);
-				}
-			};
-			setTimeout(typeWriter, 1500);
-		}
+		// Start typing animation after a delay, regardless of heroVisible state
+		setTimeout(() => {
+			startTyping();
+		}, 1500);
 	});
+
+	const startTyping = () => {
+		if (typingStarted) return;
+		typingStarted = true;
+		
+		const typeWriter = () => {
+			if (currentIndex < typingText.length) {
+				currentText += typingText[currentIndex];
+				currentIndex++;
+				setTimeout(typeWriter, 100);
+			}
+		};
+		typeWriter();
+	};
+
+	// Also start typing when heroVisible becomes true (as a fallback)
+	$: if (heroVisible && !typingStarted) {
+		setTimeout(() => {
+			startTyping();
+		}, 500);
+	}
 </script>
 
 <section class="relative min-h-screen flex items-center justify-center overflow-hidden">
