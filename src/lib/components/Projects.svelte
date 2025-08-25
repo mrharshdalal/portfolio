@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
 	import { fly, scale } from 'svelte/transition';
 	import { quintOut, backOut } from 'svelte/easing';
 
@@ -7,11 +8,11 @@
 	let projects = [
 		{
 			name: "BoltBill",
-			description: "API-first PDF invoice generator with advanced branding tools and dynamic template system for seamless invoice creation",
+			description: "API-first service that generates custom-branded PDF invoices as array buffers, enabling seamless integration into existing business workflows with template selection and branding tools",
 			shortDesc: "API-first PDF invoice generator with branding tools",
-			technologies: ["Node.js", "PDFKit", "REST API", "AWS S3", "Express.js"],
-			features: ["Dynamic Templates", "Brand Customization", "PDF Generation", "API Integration"],
-			status: "Production",
+			technologies: ["TypeScript", "SvelteKit", "Firebase Functions", "Firestore"],
+			features: ["Custom Branding", "Template Selection", "Array Buffer Output", "API Integration"],
+			status: "In Development",
 			logo: "📄",
 			liveUrl: "#",
 			githubUrl: "#",
@@ -20,11 +21,11 @@
 		},
 		{
 			name: "Quick Neons",
-			description: "Custom neon sign ordering platform with dynamic checkout, real-time pricing, and comprehensive order tracking system",
+			description: "Custom product ordering interface for personalized neon signs with dynamic checkout flow and responsive design, enhancing user experience through intuitive UI",
 			shortDesc: "Custom neon sign ordering platform with dynamic checkout",
-			technologies: ["SvelteKit", "TypeScript", "Stripe", "Firebase", "Tailwind CSS"],
-			features: ["Custom Design Tool", "Dynamic Pricing", "Order Tracking", "Payment Integration"],
-			status: "Production",
+			technologies: ["TypeScript", "SvelteKit", "Firebase Functions", "Firestore"],
+			features: ["Custom Design Tool", "Dynamic Checkout", "Responsive Design", "User Experience"],
+			status: "In Development",
 			logo: "✨",
 			liveUrl: "#",
 			githubUrl: "#",
@@ -32,11 +33,11 @@
 			gradient: "from-violet-500/20 to-violet-600/20"
 		},
 		{
-			name: "E-commerce & POS System",
-			description: "Comprehensive e-commerce platform with POS integration, inventory management, and advanced analytics dashboard",
-			shortDesc: "Comprehensive e-commerce platform with POS integration",
-			technologies: ["Spring Boot", "Java", "MySQL", "React", "Firebase"],
-			features: ["POS Integration", "Inventory Management", "Analytics Dashboard", "Multi-store Support"],
+			name: "E-commerce Platform",
+			description: "Comprehensive e-commerce platform with secure authentication, intuitive product management, and enhanced customer experience that boosted engagement and retention",
+			shortDesc: "Full-stack e-commerce platform with authentication",
+			technologies: ["Java", "Spring Boot", "SvelteKit", "TypeScript", "Firestore"],
+			features: ["Secure Authentication", "Product Management", "Customer Experience", "Engagement"],
 			status: "Production",
 			logo: "🛒",
 			liveUrl: "#",
@@ -45,13 +46,13 @@
 			gradient: "from-amber-500/20 to-amber-600/20"
 		},
 		{
-			name: "Trouble Tracers",
-			description: "Full-stack e-commerce solution with user authentication, product management, and comprehensive audit logging",
-			shortDesc: "Full-stack e-commerce solution with audit logging",
-			technologies: ["SvelteKit", "Spring Boot", "Firebase", "TypeScript"],
-			features: ["User Authentication", "CRUD Operations", "Audit Logging", "Real-time Updates"],
+			name: "POS System",
+			description: "Point-of-sale system with Zoho invoice integration using SvelteKit + Firestore, streamlining billing and inventory tracking for seamless retail operations",
+			shortDesc: "POS system with Zoho invoice integration",
+			technologies: ["SvelteKit", "Firestore", "Zoho Integration", "TypeScript"],
+			features: ["Zoho Integration", "Billing System", "Inventory Tracking", "Retail Operations"],
 			status: "Production",
-			logo: "🔍",
+			logo: "💳",
 			liveUrl: "#",
 			githubUrl: "#",
 			color: "from-rose-500 to-rose-600",
@@ -60,6 +61,18 @@
 	];
 
 	let hoveredProject = -1;
+	let shouldShow = false;
+
+	onMount(() => {
+		// Fallback: Show content after 3 seconds if not triggered by parent
+		setTimeout(() => {
+			if (!isVisible) {
+				shouldShow = true;
+			}
+		}, 3000);
+	});
+
+	$: shouldShow = isVisible || shouldShow;
 </script>
 
 <section id="projects" class="py-32 bg-slate-50 dark:bg-slate-900">
@@ -69,12 +82,12 @@
 				Featured Projects
 			</h2>
 			<div class="w-32 h-1 bg-gradient-to-r from-emerald-600 to-violet-600 mx-auto rounded-full mb-6"></div>
-			<p class="text-xl text-slate-600 dark:text-slate-300">Production applications serving real users with innovative solutions</p>
+			<p class="text-xl text-slate-600 dark:text-slate-300">Production applications and innovative solutions serving real users</p>
 		</div>
 
 		<div class="grid lg:grid-cols-2 gap-12">
 			{#each projects as project, index}
-				{#if isVisible}
+				{#if shouldShow}
 					<div 
 						in:fly={{ y: 60, duration: 1000, delay: index * 200, easing: quintOut }}
 						class="group relative"
@@ -103,7 +116,10 @@
 											<h3 class="text-2xl font-bold text-slate-900 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors duration-300">
 												{project.name}
 											</h3>
-											<span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold bg-emerald-100 text-emerald-800 dark:bg-emerald-900/50 dark:text-emerald-200">
+											<span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold 
+												{project.status === 'Production' 
+													? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/50 dark:text-emerald-200'
+													: 'bg-amber-100 text-amber-800 dark:bg-amber-900/50 dark:text-amber-200'}">
 												{project.status}
 											</span>
 										</div>

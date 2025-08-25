@@ -24,6 +24,9 @@
 	let contactVisible = false;
 	let footerVisible = false;
 	
+	// Track which sections have been observed to prevent duplicate triggers
+	let observedSections = new Set();
+	
 	onMount(() => {
 		mounted = true;
 		
@@ -32,54 +35,92 @@
 			heroVisible = true;
 		}, 300);
 		
-		// Setup intersection observers for sections
+		// Setup intersection observers for sections with better timing
 		setupIntersectionObservers();
+		
+		// Fallback: Show all sections after a delay if they haven't been triggered
+		setTimeout(() => {
+			if (!aboutVisible) aboutVisible = true;
+			if (!experienceVisible) experienceVisible = true;
+			if (!projectsVisible) projectsVisible = true;
+			if (!skillsVisible) skillsVisible = true;
+			if (!contactVisible) contactVisible = true;
+			if (!footerVisible) footerVisible = true;
+		}, 5000); // 5 second fallback
 	});
 	
 	const setupIntersectionObservers = () => {
+		if (!browser) return;
+		
 		const observerOptions = {
-			threshold: 0.2,
-			rootMargin: '0px 0px -100px 0px'
+			threshold: 0.1, // Lower threshold for better detection
+			rootMargin: '0px 0px -50px 0px' // Reduced margin
 		};
 		
 		const observer = new IntersectionObserver((entries) => {
 			entries.forEach(entry => {
-				if (entry.isIntersecting) {
+				if (entry.isIntersecting && !observedSections.has(entry.target.id)) {
+					observedSections.add(entry.target.id);
 					const section = entry.target.id;
+					
 					switch (section) {
 						case 'about':
-							setTimeout(() => aboutVisible = true, 200);
+							if (!aboutVisible) {
+								setTimeout(() => aboutVisible = true, 100);
+							}
 							break;
 						case 'experience':
-							setTimeout(() => experienceVisible = true, 200);
+							if (!experienceVisible) {
+								setTimeout(() => experienceVisible = true, 100);
+							}
 							break;
 						case 'projects':
-							setTimeout(() => projectsVisible = true, 200);
+							if (!projectsVisible) {
+								setTimeout(() => projectsVisible = true, 100);
+							}
 							break;
 						case 'skills':
-							setTimeout(() => skillsVisible = true, 200);
+							if (!skillsVisible) {
+								setTimeout(() => skillsVisible = true, 100);
+							}
 							break;
 						case 'contact':
-							setTimeout(() => contactVisible = true, 200);
+							if (!contactVisible) {
+								setTimeout(() => contactVisible = true, 100);
+							}
 							break;
 					}
 				}
 			});
 		}, observerOptions);
 		
-		// Observe sections
-		setTimeout(() => {
+		// Function to observe sections with retry logic
+		const observeSections = () => {
 			const sections = ['about', 'experience', 'projects', 'skills', 'contact'];
+			let allFound = true;
+			
 			sections.forEach(sectionId => {
 				const element = document.getElementById(sectionId);
-				if (element) observer.observe(element);
+				if (element) {
+					observer.observe(element);
+				} else {
+					allFound = false;
+				}
 			});
-		}, 1000);
+			
+			// If not all sections found, retry after a short delay
+			if (!allFound) {
+				setTimeout(observeSections, 500);
+			}
+		};
 		
-		// Footer visibility
+		// Start observing with initial delay
+		setTimeout(observeSections, 500);
+		
+		// Footer visibility with delay
 		setTimeout(() => {
 			footerVisible = true;
-		}, 2000);
+		}, 3000);
 	};
 </script>
 

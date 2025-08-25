@@ -96,9 +96,9 @@
 			<!-- One-liner -->
 			<div in:fly={{ y: 30, duration: 1000, easing: quintOut, delay: 400 }}>
 				<p class="text-lg md:text-xl lg:text-2xl mb-16 max-w-4xl mx-auto opacity-80 leading-relaxed font-light">
-					Building <span class="font-semibold text-emerald-300">scalable, production-ready applications</span> with 
-					<span class="font-semibold text-violet-300">clean architectures</span> and 
-					<span class="font-semibold text-amber-300">smooth user experiences</span>
+					Solving <span class="font-semibold text-emerald-300">complex engineering challenges</span> and delivering 
+					<span class="font-semibold text-violet-300">scalable, production-ready applications</span> with 
+					<span class="font-semibold text-amber-300">clean architectures</span> and innovative problem-solving
 				</p>
 			</div>
 			

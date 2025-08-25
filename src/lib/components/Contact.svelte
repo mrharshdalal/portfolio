@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
 	import { fly } from 'svelte/transition';
 	import { quintOut } from 'svelte/easing';
 
@@ -8,6 +9,7 @@
 	let isSubmitting = false;
 	let submitSuccess = false;
 	let formErrors = { name: '', email: '', message: '' };
+	let shouldShow = false;
 
 	const validateForm = () => {
 		formErrors = { name: '', email: '', message: '' };
@@ -60,6 +62,17 @@
 	];
 
 	let hoveredLink = -1;
+
+	onMount(() => {
+		// Fallback: Show content after 3 seconds if not triggered by parent
+		setTimeout(() => {
+			if (!isVisible) {
+				shouldShow = true;
+			}
+		}, 3000);
+	});
+
+	$: shouldShow = isVisible || shouldShow;
 </script>
 
 <section id="contact" class="py-32 relative overflow-hidden">
@@ -73,7 +86,7 @@
 		</div>
 
 		<div class="grid lg:grid-cols-2 gap-16">
-			{#if isVisible}
+			{#if shouldShow}
 				<div in:fly={{ x: -50, duration: 1000, easing: quintOut }}>
 					<div class="bg-white/10 backdrop-blur-xl rounded-3xl p-8 border border-white/20">
 						<h3 class="text-2xl font-bold mb-6">Send me a message</h3>
@@ -162,7 +175,7 @@
 			{/if}
 		</div>
 
-		{#if isVisible}
+		{#if shouldShow}
 			<div in:fly={{ y: 30, duration: 800, delay: 600, easing: quintOut }} class="text-center mt-20">
 				<div class="bg-white/10 backdrop-blur-md rounded-3xl p-8 border border-white/20">
 					<h3 class="text-2xl font-bold mb-4">Open to Opportunities</h3>

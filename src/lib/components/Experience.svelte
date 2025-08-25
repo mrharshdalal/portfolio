@@ -10,26 +10,30 @@
 			title: "Full Stack Developer",
 			company: "Tech Inject LLP",
 			period: "Jan 2024 – Present",
-			description: "Leading full-stack development for enterprise applications and e-commerce platforms",
+			location: "Punjab, India",
+			description: "Leading full-stack development for e-commerce platforms and POS systems with focus on scalability and cost optimization",
 			achievements: [
-				"Developed scalable e-commerce platforms serving 20,000+ users",
-				"Built RESTful APIs with Spring Boot and implemented microservices architecture",
-				"Optimized database queries reducing response times by 60%",
-				"Implemented CI/CD pipelines reducing deployment time by 80%"
+				"Scaled IP-based redirection system to handle 10k+ daily requests with Redis TTL caching and multi-token strategy",
+				"Reduced Firestore read costs by 40× through query optimization and document structure improvements",
+				"Automated packaging workflow with EshopBox integration, cutting fulfillment time and improving inventory accuracy",
+				"Designed and launched POS system with Zoho invoice integration using SvelteKit + Firestore",
+				"Built fault-tolerant notification system achieving 99% delivery success rate across email and WhatsApp",
+				"Engineered reusable checkout flow supporting discounts, reward points, and Razorpay payments"
 			],
-			technologies: ["Java", "Spring Boot", "SvelteKit", "TypeScript", "MySQL", "Firebase"],
+			technologies: ["Java", "Spring Boot", "SvelteKit", "TypeScript", "Firestore", "Redis", "Razorpay", "EshopBox"],
 			status: "Current",
 			color: "from-emerald-500 to-emerald-600"
 		},
 		{
-			title: "Full Stack Intern",
+			title: "Full Stack Developer Intern",
 			company: "Goldlane",
 			period: "Jun 2023 – Nov 2023",
+			location: "Bangalore, Karnataka",
 			description: "Contributed to frontend development and API integration for large-scale applications",
 			achievements: [
-				"Designed responsive web interfaces resulting in 3-5 daily booking increase",
-				"Led frontend development for admin webstore serving 20,000+ users",
-				"Implemented file upload capabilities and third-party API integrations",
+				"Developed user-friendly demo booking website, increasing bookings from zero to 3–5 daily",
+				"Led frontend design of SIP Admin Webstore serving 20,000+ users",
+				"Implemented file uploads and integrated APIs to improve user experience and data handling",
 				"Collaborated with cross-functional teams to deliver features on time"
 			],
 			technologies: ["Angular", "JavaScript", "HTML", "CSS", "REST APIs"],
@@ -39,12 +43,21 @@
 	];
 
 	let visibleItems: boolean[] = [];
+	let shouldShow = false;
 
 	onMount(() => {
 		visibleItems = new Array(experiences.length).fill(false);
+		
+		// Fallback: Show content after 3 seconds if not triggered by parent
+		setTimeout(() => {
+			if (!isVisible) {
+				shouldShow = true;
+			}
+		}, 3000);
 	});
 
-	$: if (isVisible) {
+	$: shouldShow = isVisible || shouldShow;
+	$: if (shouldShow) {
 		experiences.forEach((_, index) => {
 			setTimeout(() => {
 				visibleItems[index] = true;
@@ -108,6 +121,7 @@
 											</h3>
 											<p class="text-xl text-emerald-600 dark:text-emerald-400 font-semibold mb-2">{exp.company}</p>
 											<p class="text-slate-600 dark:text-slate-300 font-medium">{exp.period}</p>
+											<p class="text-slate-500 dark:text-slate-400 text-sm">{exp.location}</p>
 										</div>
 										<div class="mt-4 md:mt-0">
 											<span class="inline-flex items-center px-4 py-2 rounded-full text-sm font-semibold 

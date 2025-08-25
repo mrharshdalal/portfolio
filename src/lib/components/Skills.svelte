@@ -14,8 +14,10 @@
 				{ name: "Java", level: 95 },
 				{ name: "TypeScript", level: 90 },
 				{ name: "JavaScript", level: 88 },
-				{ name: "SQL", level: 85 },
-				{ name: "NoSQL", level: 80 }
+				{ name: "MySQL", level: 85 },
+				{ name: "Firestore", level: 90 },
+				{ name: "NoSQL", level: 85 },
+				{ name: "HTML/CSS", level: 92 }
 			]
 		},
 		frameworks: {
@@ -26,20 +28,21 @@
 				{ name: "Spring Boot", level: 92 },
 				{ name: "SvelteKit", level: 88 },
 				{ name: "Node.js", level: 85 },
-				{ name: "Firebase", level: 82 },
-				{ name: "Express.js", level: 80 }
+				{ name: "Firebase Functions", level: 90 }
 			]
 		},
 		tools: {
-			title: "Tools",
+			title: "Developer Tools",
 			icon: "🛠️",
 			color: "amber",
 			skills: [
 				{ name: "Git", level: 90 },
-				{ name: "GCP", level: 75 },
 				{ name: "Vercel", level: 85 },
+				{ name: "Google Cloud Platform", level: 80 },
 				{ name: "VS Code", level: 95 },
-				{ name: "AI Tools", level: 70 }
+				{ name: "WebStorm", level: 85 },
+				{ name: "Cursor", level: 80 },
+				{ name: "AI Tools", level: 75 }
 			]
 		},
 		integrations: {
@@ -51,22 +54,31 @@
 				{ name: "Resend", level: 88 },
 				{ name: "EshopBox", level: 82 },
 				{ name: "WATI", level: 80 },
-				{ name: "Nodemailer", level: 90 }
+				{ name: "NodeMailer", level: 90 }
 			]
 		}
 	};
 
 	let animatedSkills: { [key: string]: boolean } = {};
 	let hoveredSkill = "";
+	let shouldShow = false;
 
 	onMount(() => {
 		// Initialize all skills as not animated
 		Object.keys(skillCategories).forEach(category => {
 			animatedSkills[category] = false;
 		});
+		
+		// Fallback: Show content after 3 seconds if not triggered by parent
+		setTimeout(() => {
+			if (!isVisible) {
+				shouldShow = true;
+			}
+		}, 3000);
 	});
 
-	$: if (isVisible) {
+	$: shouldShow = isVisible || shouldShow;
+	$: if (shouldShow) {
 		// Animate skills with delay
 		Object.keys(skillCategories).forEach((category, index) => {
 			setTimeout(() => {
@@ -89,7 +101,7 @@
 
 		<div class="grid md:grid-cols-2 gap-12">
 			{#each Object.entries(skillCategories) as [categoryKey, category], categoryIndex}
-				{#if isVisible}
+				{#if shouldShow}
 					<div 
 						in:fly={{ y: 50, duration: 800, delay: categoryIndex * 200, easing: quintOut }}
 						class="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-3xl shadow-2xl p-8 border border-slate-200/50 dark:border-slate-700/50 hover:shadow-3xl transition-all duration-500 transform hover:-translate-y-2"
@@ -161,33 +173,40 @@
 		</div>
 
 		<!-- Additional Skills Summary -->
-		{#if isVisible}
+		{#if shouldShow}
 			<div 
 				in:fly={{ y: 30, duration: 800, delay: 1000, easing: quintOut }}
 				class="mt-20 bg-gradient-to-r from-emerald-600/10 to-violet-600/10 dark:from-emerald-600/20 dark:to-violet-600/20 rounded-3xl p-12 backdrop-blur-sm border border-emerald-500/20 dark:border-violet-500/20"
 			>
-				<h3 class="text-3xl font-bold text-slate-900 dark:text-white mb-8 text-center">Additional Expertise</h3>
-				<div class="grid md:grid-cols-3 gap-8">
+				<h3 class="text-3xl font-bold text-slate-900 dark:text-white mb-8 text-center">Soft Skills</h3>
+				<div class="grid md:grid-cols-4 gap-8">
 					<div class="text-center group">
 						<div class="w-16 h-16 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
-							<span class="text-2xl">🎨</span>
+							<span class="text-2xl">👑</span>
 						</div>
-						<h4 class="text-xl font-semibold text-slate-900 dark:text-white mb-2">Frontend</h4>
-						<p class="text-slate-600 dark:text-slate-300">HTML5, CSS3, Tailwind CSS, Bootstrap, Responsive Design</p>
+						<h4 class="text-xl font-semibold text-slate-900 dark:text-white mb-2">Leadership</h4>
+						<p class="text-slate-600 dark:text-slate-300">Leading teams and projects effectively</p>
 					</div>
 					<div class="text-center group">
 						<div class="w-16 h-16 bg-gradient-to-br from-violet-500 to-violet-600 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
-							<span class="text-2xl">🗄️</span>
+							<span class="text-2xl">🧩</span>
 						</div>
-						<h4 class="text-xl font-semibold text-slate-900 dark:text-white mb-2">Database</h4>
-						<p class="text-slate-600 dark:text-slate-300">MySQL, Firestore, Database Design, Data Modeling</p>
+						<h4 class="text-xl font-semibold text-slate-900 dark:text-white mb-2">Problem Solving</h4>
+						<p class="text-slate-600 dark:text-slate-300">Analytical thinking and creative solutions</p>
 					</div>
 					<div class="text-center group">
 						<div class="w-16 h-16 bg-gradient-to-br from-amber-500 to-amber-600 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
-							<span class="text-2xl">🚀</span>
+							<span class="text-2xl">🤝</span>
 						</div>
-						<h4 class="text-xl font-semibold text-slate-900 dark:text-white mb-2">DevOps</h4>
-						<p class="text-slate-600 dark:text-slate-300">CI/CD, Docker, Cloud Deployment, Performance Optimization</p>
+						<h4 class="text-xl font-semibold text-slate-900 dark:text-white mb-2">Teamwork</h4>
+						<p class="text-slate-600 dark:text-slate-300">Collaborative development and coordination</p>
+					</div>
+					<div class="text-center group">
+						<div class="w-16 h-16 bg-gradient-to-br from-rose-500 to-rose-600 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
+							<span class="text-2xl">💬</span>
+						</div>
+						<h4 class="text-xl font-semibold text-slate-900 dark:text-white mb-2">Communication</h4>
+						<p class="text-slate-600 dark:text-slate-300">Clear and effective communication skills</p>
 					</div>
 				</div>
 			</div>
