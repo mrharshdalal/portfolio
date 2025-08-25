@@ -136,7 +136,7 @@
 	<meta name="twitter:description" content="Experienced Full Stack Developer specializing in SvelteKit, Spring Boot, and e-commerce solutions." />
 </svelte:head>
 
-<ThemeToggle />
+<!-- <ThemeToggle /> -->
 <Navigation />
 
 <div class="min-h-screen bg-slate-50 dark:bg-slate-900 transition-colors duration-500">

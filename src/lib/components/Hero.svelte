@@ -133,7 +133,7 @@
 					</span>
 				</a>
 				
-				<a href="/HarshDalalResume.pdf" target="_blank" 
+				<a href="https://drive.google.com/file/d/1BIerOTpOm8YGT-yQ0VRpdxQqo94rIVI1/view?usp=drive_link" target="_blank" 
 					 class="group px-10 py-4 bg-white/10 backdrop-blur-md border-2 border-white/30 rounded-2xl font-semibold text-lg 
 								hover:bg-white hover:text-slate-900 transition-all duration-500 transform hover:scale-105 hover:-translate-y-1
 								shadow-2xl hover:shadow-white/25">
