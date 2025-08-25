@@ -1,0 +1,266 @@
+@import 'tailwindcss';
+@import '@fontsource/fira-mono';
+@plugin '@tailwindcss/forms';
+@plugin '@tailwindcss/typography';
+
+:root {
+	--font-body:
+		'Inter', Arial, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell,
+		'Open Sans', 'Helvetica Neue', sans-serif;
+	--font-mono: 'Fira Mono', monospace;
+	font-family: var(--font-body);
+	color-scheme: light;
+}
+
+.dark {
+	color-scheme: dark;
+}
+
+/* Base styles */
+* {
+	box-sizing: border-box;
+}
+
+html {
+	scroll-behavior: smooth;
+}
+
+body {
+	margin: 0;
+	min-height: 100vh;
+	font-family: var(--font-body);
+	transition: background-color 0.3s ease, color 0.3s ease;
+	overflow-x: hidden;
+}
+
+/* Typography improvements */
+h1, h2, h3, h4, h5, h6 {
+	font-weight: 600;
+	line-height: 1.2;
+	letter-spacing: -0.025em;
+}
+
+p {
+	line-height: 1.6;
+}
+
+a {
+	text-decoration: none;
+	transition: all 0.2s ease;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+/* Focus styles for accessibility */
+a:focus-visible, 
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+	outline: 2px solid #3b82f6;
+	outline-offset: 2px;
+	border-radius: 4px;
+}
+
+button:focus:not(:focus-visible) {
+	outline: none;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+	width: 12px;
+}
+
+::-webkit-scrollbar-track {
+	background: #f1f5f9;
+}
+
+.dark ::-webkit-scrollbar-track {
+	background: #1f2937;
+}
+
+::-webkit-scrollbar-thumb {
+	background: linear-gradient(to bottom, #3b82f6, #8b5cf6);
+	border-radius: 6px;
+	border: 2px solid #f1f5f9;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+	border-color: #1f2937;
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background: linear-gradient(to bottom, #2563eb, #7c3aed);
+}
+
+/* Animation utilities */
+@keyframes fadeInUp {
+	from {
+		opacity: 0;
+		transform: translateY(30px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@keyframes slideInLeft {
+	from {
+		opacity: 0;
+		transform: translateX(-30px);
+	}
+	to {
+		opacity: 1;
+		transform: translateX(0);
+	}
+}
+
+@keyframes slideInRight {
+	from {
+		opacity: 0;
+		transform: translateX(30px);
+	}
+	to {
+		opacity: 1;
+		transform: translateX(0);
+	}
+}
+
+@keyframes scaleIn {
+	from {
+		opacity: 0;
+		transform: scale(0.9);
+	}
+	to {
+		opacity: 1;
+		transform: scale(1);
+	}
+}
+
+@keyframes float {
+	0%, 100% { 
+		transform: translateY(0px); 
+	}
+	50% { 
+		transform: translateY(-10px); 
+	}
+}
+
+@keyframes glow {
+	0%, 100% { 
+		opacity: 1; 
+	}
+	50% { 
+		opacity: 0.5; 
+	}
+}
+
+@keyframes bounce {
+	0%, 100% {
+		transform: translateY(-25%);
+		animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+	}
+	50% {
+		transform: none;
+		animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+	}
+}
+
+.animate-fadeInUp {
+	animation: fadeInUp 0.8s ease-out;
+}
+
+.animate-slideInLeft {
+	animation: slideInLeft 0.8s ease-out;
+}
+
+.animate-slideInRight {
+	animation: slideInRight 0.8s ease-out;
+}
+
+.animate-scaleIn {
+	animation: scaleIn 0.6s ease-out;
+}
+
+.animate-float {
+	animation: float 3s ease-in-out infinite;
+}
+
+.animate-glow {
+	animation: glow 2s ease-in-out infinite;
+}
+
+.animate-bounce {
+	animation: bounce 1s infinite;
+}
+
+/* Performance optimizations */
+.will-change-transform {
+	will-change: transform;
+}
+
+.will-change-opacity {
+	will-change: opacity;
+}
+
+/* Prevent layout shift */
+.aspect-ratio-16-9 {
+	aspect-ratio: 16 / 9;
+}
+
+.aspect-ratio-1-1 {
+	aspect-ratio: 1 / 1;
+}
+
+/* Glassmorphism utilities */
+.backdrop-blur-glass {
+	backdrop-filter: blur(16px) saturate(180%);
+	background-color: rgba(255, 255, 255, 0.75);
+	border: 1px solid rgba(255, 255, 255, 0.125);
+}
+
+.dark .backdrop-blur-glass {
+	background-color: rgba(17, 24, 39, 0.75);
+	border-color: rgba(255, 255, 255, 0.125);
+}
+
+/* Text gradient utilities */
+.text-gradient {
+	background: linear-gradient(45deg, #3b82f6, #8b5cf6, #ef4444);
+	background-size: 300% 300%;
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	background-clip: text;
+	animation: gradientShift 5s ease infinite;
+}
+
+@keyframes gradientShift {
+	0% { background-position: 0% 50%; }
+	50% { background-position: 100% 50%; }
+	100% { background-position: 0% 50%; }
+}
+
+/* Print styles */
+@media print {
+	* {
+		color: black !important;
+		background: white !important;
+	}
+	
+	.no-print {
+		display: none !important;
+	}
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+	*,
+	::before,
+	::after {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+	}
+}
